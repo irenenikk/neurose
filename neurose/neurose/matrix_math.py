@@ -1,0 +1,38 @@
+class MatrixMath:
+
+    @staticmethod
+    def as_matrix(v):
+        return [[m for m in v]]
+    @staticmethod
+    def raise_value_error(m1, m2):
+        raise ValueError('Incompatible dimensions: {} dot {}'.format(m1, m2))
+
+    @staticmethod
+    def dot(matrix1, matrix2):
+        if len(matrix1) == 0 or len(matrix2) == 0:
+            return []
+        # the matrixes can be implicitly changed from a single vector to matrix
+        if not isinstance(matrix2[0], list):
+            matrix2 = MatrixMath.as_matrix(matrix2)
+        if not isinstance(matrix1[0], list):
+            matrix1 = MatrixMath.as_matrix(matrix1)
+        # initialize result matrix with Nones
+        result = [None] * len(matrix1)
+        for i in range(len(result)):
+            result[i] = [None] * len(matrix2[0])
+        # start multiplying
+        for row in range(len(matrix1)):
+            for col in range(len(matrix2[0])):
+                sum = 0
+                # i is column depth
+                if len(matrix1[row]) != len(matrix2):
+                    MatrixMath.raise_value_error(matrix1, matrix2)
+                for i in range(len(matrix1[row])):
+                    a = matrix1[row][i]
+                    if not isinstance(matrix2[i], list)\
+                        or col >= len(matrix2[i]):
+                        MatrixMath.raise_value_error(matrix1, matrix2)
+                    b = matrix2[i][col]
+                    sum += a*b
+                result[row][col] = sum
+        return result
