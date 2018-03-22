@@ -1,8 +1,9 @@
 class MatrixMath:
 
     @staticmethod
-    def as_matrix(v):
-        return [[m for m in v]]
+    def vector_as_matrix(v):
+        return [v]
+
     @staticmethod
     def raise_value_error(m1, m2):
         raise ValueError('Incompatible dimensions: {} dot {}'.format(m1, m2))
@@ -24,9 +25,10 @@ class MatrixMath:
         for row in range(len(matrix1)):
             for col in range(len(matrix2[0])):
                 sum = 0
-                # i is column depth
+                # amount of cols in first matrix must be same as amount of rows in second
                 if len(matrix1[row]) != len(matrix2):
                     MatrixMath.raise_value_error(matrix1, matrix2)
+                # i is column depth
                 for i in range(len(matrix1[row])):
                     a = matrix1[row][i]
                     if not isinstance(matrix2[i], list)\
