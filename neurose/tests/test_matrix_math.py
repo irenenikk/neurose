@@ -32,6 +32,11 @@ class TestMatrixMath(TestCase):
         b = [randint(-10, 10) for i in range(5)]
         self.assertTrue((np.matrix(a) * np.matrix(b) == MatrixMath.dot(a, b)).all())
 
+    def test_converts_vector_to_matrix_2(self):
+        b = [[randint(-10, 10)] for i in range(5)]
+        a = [randint(-10, 10) for i in range(5)]
+        self.assertTrue((np.matrix(a) * np.matrix(b) == MatrixMath.dot(a, b)).all())
+
     def test_matrix_dot_with_weird_dimensions(self):
         b = [[randint(-10, 10)] for i in range(5)]
         a = [[randint(-10, 10) for i in range(5)]]

@@ -1,0 +1,212 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">60%</span>
+        </h1>
+
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+
+<div id="index">
+    <table class="index">
+        <thead>
+            
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>890</td>
+                <td>358</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="532 890">60%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            
+            <tr class="file">
+                <td class="name left"><a href="kurssit_tiralabra_neurose_neurose_neurose___init___py.html">kurssit/tiralabra/neurose/neurose/neurose/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="kurssit_tiralabra_neurose_neurose_neurose_functions_py.html">kurssit/tiralabra/neurose/neurose/neurose/functions.py</a></td>
+                <td>5</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 5">80%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="kurssit_tiralabra_neurose_neurose_neurose_matrix_math_py.html">kurssit/tiralabra/neurose/neurose/neurose/matrix_math.py</a></td>
+                <td>28</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="28 28">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="kurssit_tiralabra_neurose_neurose_tests_test_functions_py.html">kurssit/tiralabra/neurose/neurose/tests/test_functions.py</a></td>
+                <td>11</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 11">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="kurssit_tiralabra_neurose_neurose_tests_test_matrix_math_py.html">kurssit/tiralabra/neurose/neurose/tests/test_matrix_math.py</a></td>
+                <td>59</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="59 59">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pycharm-2017_3_4_helpers_pycharm__jb_runner_tools_py.html">pycharm-2017.3.4/helpers/pycharm/_jb_runner_tools.py</a></td>
+                <td>203</td>
+                <td>59</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="144 203">71%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pycharm-2017_3_4_helpers_pycharm__jb_unittest_runner_py.html">pycharm-2017.3.4/helpers/pycharm/_jb_unittest_runner.py</a></td>
+                <td>24</td>
+                <td>4</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="20 24">83%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pycharm-2017_3_4_helpers_pycharm__jb_utils_py.html">pycharm-2017.3.4/helpers/pycharm/_jb_utils.py</a></td>
+                <td>63</td>
+                <td>31</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="32 63">51%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pycharm-2017_3_4_helpers_pycharm_teamcity___init___py.html">pycharm-2017.3.4/helpers/pycharm/teamcity/__init__.py</a></td>
+                <td>6</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 6">83%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pycharm-2017_3_4_helpers_pycharm_teamcity_common_py.html">pycharm-2017.3.4/helpers/pycharm/teamcity/common.py</a></td>
+                <td>88</td>
+                <td>49</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="39 88">44%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pycharm-2017_3_4_helpers_pycharm_teamcity_diff_tools_py.html">pycharm-2017.3.4/helpers/pycharm/teamcity/diff_tools.py</a></td>
+                <td>56</td>
+                <td>33</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="23 56">41%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pycharm-2017_3_4_helpers_pycharm_teamcity_messages_py.html">pycharm-2017.3.4/helpers/pycharm/teamcity/messages.py</a></td>
+                <td>136</td>
+                <td>57</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="79 136">58%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pycharm-2017_3_4_helpers_pycharm_teamcity_unittestpy_py.html">pycharm-2017.3.4/helpers/pycharm/teamcity/unittestpy.py</a></td>
+                <td>211</td>
+                <td>123</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="88 211">42%</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.1</a>,
+            created at 2018-03-23 15:31
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

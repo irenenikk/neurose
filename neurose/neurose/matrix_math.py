@@ -14,9 +14,9 @@ class MatrixMath:
             return []
         # the matrixes can be implicitly changed from a single vector to matrix
         if not isinstance(matrix2[0], list):
-            matrix2 = MatrixMath.as_matrix(matrix2)
+            matrix2 = MatrixMath.vector_as_matrix(matrix2)
         if not isinstance(matrix1[0], list):
-            matrix1 = MatrixMath.as_matrix(matrix1)
+            matrix1 = MatrixMath.vector_as_matrix(matrix1)
         # initialize result matrix with Nones
         result = [None] * len(matrix1)
         for i in range(len(result)):
