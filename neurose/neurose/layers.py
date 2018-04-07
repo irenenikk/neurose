@@ -1,5 +1,6 @@
-from ..matrix_math import MatrixMath
+from neurose.matrix_math import MatrixMath
 import numpy as np
+
 
 class Linear:
 

@@ -1,9 +1,9 @@
 from unittest import TestCase
-from neurose.layers.linear import Linear
+from neurose.layers import Linear
 from random import randint
 
 
-class TestMatrixMath(TestCase):
+class TestLinearLayer(TestCase):
 
     def test_linear_layer_output_correct_shape(self):
         input = randint(5, 10)
