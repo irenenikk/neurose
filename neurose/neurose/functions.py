@@ -1,13 +1,16 @@
 import numpy as np
 from functools import reduce
+from functools import reduce
 
 
 # Just your average activation function
 class Sigmoid():
 
+    @staticmethod
     def call(x):
         return 1/(1 + np.exp(-np.array(x)))
 
+    @staticmethod
     def derivative(x):
         s = np.array(Sigmoid.call(x))
         return s*(1-s)
@@ -17,6 +20,7 @@ class Sigmoid():
 # Is used mostly in output layer to obtain probabilities
 class SoftMax():
 
+    @staticmethod
     def call(inp):
         # All this transposing just to support batches
         x = inp.T
@@ -26,6 +30,29 @@ class SoftMax():
             out.append(np.exp(x[i])/z)
         return np.asarray(out).T
 
+    @staticmethod
     def derivative(x):
         s = np.array(SoftMax.call(x))
         return s*(1-s)
+
+# Just your average loss function
+# Use Euclidean distance between vectors
+class MeanSquaredError():
+
+    # We assume that the input is a matrix with each row representing a different output
+    # so the matrix contains all the outputs of a single batch
+    @staticmethod
+    def call(outputs, labels):
+        if not isinstance(outputs, np.ndarray) or not isinstance(labels, np.ndarray):
+            raise ValueError('Loss functions require lists as inputs: {}'.format(outputs, labels))
+        if not len(outputs) == len(labels):
+            raise ValueError('Outputs and labels are a different length: {} and {}'.format(len(outputs), len(labels)))
+        sum = 0
+        for o, l in zip(outputs, labels):
+            if not len(o) == len(l): raise ValueError('Outputs and labels are a different dimesion: {} and {}'.format(o, l))
+            sum += (np.linalg.norm(o - l)) ** 2
+        return sum/(len(outputs))
+
+    @staticmethod
+    def derivative(x):
+        raise NotImplementedError
