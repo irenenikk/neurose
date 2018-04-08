@@ -1,6 +1,8 @@
 from unittest import TestCase
 from neurose.layers import Linear
 from random import randint
+from neurose.net import Net
+from neurose.functions import Sigmoid
 
 
 class TestLinearLayer(TestCase):
@@ -9,5 +11,5 @@ class TestLinearLayer(TestCase):
         input = randint(5, 10)
         output = randint(5, 10)
         a = [[randint(0, 5)] for i in range(input)]
-        linear = Linear(input, output)
+        linear = Linear(Net(Sigmoid), input, output)
         self.assertTrue(len(linear.forward(a)) == output)

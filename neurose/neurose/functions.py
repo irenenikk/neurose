@@ -2,18 +2,8 @@ import numpy as np
 from functools import reduce
 
 
-# we do not support batches here for now
-class DifferentiableFunction:
-
-    def call(x):
-        raise NotImplementedError
-
-    def derivative(x):
-        raise NotImplementedError
-
-
 # Just your average activation function
-class Sigmoid(DifferentiableFunction):
+class Sigmoid():
 
     def call(x):
         return 1/(1 + np.exp(-np.array(x)))
@@ -25,11 +15,11 @@ class Sigmoid(DifferentiableFunction):
 
 # Maps values in an array between [0,1]
 # Is used mostly in output layer to obtain probabilities
-class SoftMax(DifferentiableFunction):
+class SoftMax():
 
     def call(inp):
+        # All this transposing just to support batches
         x = inp.T
-        print(x)
         out = []
         for i in range(len(x)):
             z = reduce(lambda val, sum: sum + val, np.exp(x[i]))
