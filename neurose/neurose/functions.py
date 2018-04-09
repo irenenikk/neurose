@@ -36,7 +36,6 @@ class SoftMax():
         return s*(1-s)
 
 # Just your average loss function
-# Use Euclidean distance between vectors
 class MeanSquaredError():
 
     # We assume that the input is a matrix with each row representing a different output
@@ -50,8 +49,9 @@ class MeanSquaredError():
         sum = 0
         for o, l in zip(outputs, labels):
             if not len(o) == len(l): raise ValueError('Outputs and labels are a different dimesion: {} and {}'.format(o, l))
+            # Use Euclidean distance between vectors to define a pass specific error
             sum += (np.linalg.norm(o - l)) ** 2
-        return sum/(len(outputs))
+        return sum/(len(outputs)*len(outputs[0]))
 
     @staticmethod
     def derivative(x):

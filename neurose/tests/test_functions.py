@@ -26,16 +26,14 @@ class TestFunctions(TestCase):
                 assert round(i, 10) == round(j, 10)
 
     def test_mean_squared_error(self):
-        # torch's mean squared error uses batches dimensions differently so we can't directly test with it
-        # we just test that the sum is correct
         a = 3
         b = 5
         outputs = np.asarray([[randint(0, 10) for j in range(a)] for i in range(b)])
         labels = np.asarray([[randint(0, 10) for j in range(a)] for i in range(b)])
-        torch_func = TorchMSE(size_average=False)
+        torch_func = TorchMSE()
         torch_result = torch_func(Variable(torch.from_numpy(outputs).double()), Variable(torch.from_numpy(labels).double()))
         my_result = MeanSquaredError.call(outputs, labels)
-        assert (round(torch_result.data[0], 10) == round(my_result*len(outputs), 10))
+        assert (round(torch_result.data[0], 10) == round(my_result, 10))
 
     def test_mse_raises_error_on_incompatible_dimensions(self):
         a = np.asarray([[randint(0, 10) for j in range(2)] for i in range(5)])
