@@ -12,7 +12,7 @@ class MatrixMath:
     def dot(matrix1, matrix2):
         if len(matrix1) == 0 or len(matrix2) == 0:
             return []
-        # the matrixes can be implicitly changed from a single vector to matrix
+        # the matrices can be implicitly changed from a single vector to matrix
         if not isinstance(matrix2[0], list):
             matrix2 = MatrixMath.vector_as_matrix(matrix2)
         if not isinstance(matrix1[0], list):

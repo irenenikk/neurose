@@ -3,25 +3,44 @@ from functools import reduce
 from functools import reduce
 
 
-# Just your average activation function
-class Sigmoid():
+# parent class for all activation functions
+# is used to store the activation functions of each layer for backpropagation
+class DifferentiableFunction:
 
-    @staticmethod
-    def call(x):
+    def __init__(self, net):
+        self.net = net
+
+    def call(self, x):
+        # for backpropagation
+        self.net.save_activation_function(self)
+        output = self.func(x)
+        # for backpropagation
+        self.net.save_output(output)
+        return output
+
+    def func(self, x):
+        raise NotImplementedError
+
+    def derivative(self, x):
+        raise NotImplementedError
+
+
+# Just your average activation function
+class Sigmoid(DifferentiableFunction):
+
+    def func(self, x):
         return 1/(1 + np.exp(-np.array(x)))
 
-    @staticmethod
-    def derivative(x):
-        s = np.array(Sigmoid.call(x))
+    def derivative(self, x):
+        s = np.array(self.func(x))
         return s*(1-s)
 
 
 # Maps values in an array between [0,1]
 # Is used mostly in output layer to obtain probabilities
-class SoftMax():
+class SoftMax(DifferentiableFunction):
 
-    @staticmethod
-    def call(inp):
+    def func(self, inp):
         # All this transposing just to support batches
         x = inp.T
         out = []
@@ -30,16 +49,29 @@ class SoftMax():
             out.append(np.exp(x[i])/z)
         return np.asarray(out).T
 
-    @staticmethod
-    def derivative(x):
-        s = np.array(SoftMax.call(x))
+    def derivative(self, x):
+        s = np.array(self.call(x))
         return s*(1-s)
 
+
+# Just your average activation function
+class ReLu(DifferentiableFunction):
+
+    def func(self, x):
+        return np.maximum(x, 0)
+
+    def derivative(self, x):
+        for i, val1 in enumerate(x):
+            for j, val2 in enumerate(val1):
+                val = x[i][j]
+                x[i][j] = 1 if val > 0 else 0
+        return x
+
 # Just your average loss function
-class MeanSquaredError():
+class MeanSquaredError:
 
     # We assume that the input is a matrix with each row representing a different output
-    # so the matrix contains all the outputs of a single batch
+    # So the matrix contains all the outputs of a single batch
     @staticmethod
     def call(outputs, labels):
         if not isinstance(outputs, np.ndarray) or not isinstance(labels, np.ndarray):
@@ -48,11 +80,15 @@ class MeanSquaredError():
             raise ValueError('Outputs and labels are a different length: {} and {}'.format(len(outputs), len(labels)))
         sum = 0
         for o, l in zip(outputs, labels):
-            if not len(o) == len(l): raise ValueError('Outputs and labels are a different dimesion: {} and {}'.format(o, l))
+            if not len(o) == len(l): raise ValueError('Outputs and labels are of different dimesion: {} and {}'.format(o, l))
             # Use Euclidean distance between vectors to define a pass specific error
             sum += (np.linalg.norm(o - l)) ** 2
+        # The mean is calculated element wise
         return sum/(len(outputs)*len(outputs[0]))
 
+    # calculations in notes about backpropagation
     @staticmethod
-    def derivative(x):
-        raise NotImplementedError
+    def derivative(outputs, labels):
+        batch_size = len(outputs)
+        dimension = len(outputs[0])
+        return (2/batch_size*dimension)*np.linalg.norm(outputs - labels)

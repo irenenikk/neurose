@@ -1,10 +1,12 @@
 from unittest import TestCase
 from torch.nn import Sigmoid as TorchSigmoid
 from torch.nn import MSELoss as TorchMSE
+import torch.nn.functional as F
 from torch.autograd import Variable
 import torch
 from random import randint
-from neurose.functions import Sigmoid, SoftMax, MeanSquaredError
+from neurose.functions import Sigmoid, SoftMax, MeanSquaredError, ReLu
+from neurose.net import Net
 import numpy as np
 
 
@@ -13,17 +15,30 @@ class TestFunctions(TestCase):
     def test_sigmoid(self):
         rand = [[randint(-10, 10) for i in range(50)] for i in range(30)]
         torch_func = TorchSigmoid()
+        my_func = Sigmoid(Net(MeanSquaredError))
         torch_result = torch_func(torch.DoubleTensor(rand))
-        self.assertTrue((torch_result == torch.from_numpy(Sigmoid.call(rand)).double()).all())
+        self.assertTrue((torch_result == torch.from_numpy(my_func.call(rand)).double()).all())
 
     def test_softmax(self):
         rand = np.asarray([[randint(0, 10) for i in range(2)] for i in range(3)])
-        torch_result = torch.nn.functional.softmax(Variable(torch.DoubleTensor(rand)), dim=0)
+        softmax = SoftMax(Net(MeanSquaredError))
+        torch_result = F.softmax(Variable(torch.DoubleTensor(rand)), dim=0)
         t = torch_result.data
-        i = torch.from_numpy(SoftMax.call(rand))
+        i = torch.from_numpy(softmax.call(rand))
         for x, y in zip(t, i):
             for i, j in zip(x, y):
                 assert round(i, 10) == round(j, 10)
+
+    def test_relu(self):
+        rand = [[randint(-10, 10) for i in range(50)] for i in range(30)]
+        relu = ReLu(Net(MeanSquaredError))
+        torch_result = F.relu(Variable(torch.DoubleTensor(rand)))
+        t = torch_result.data
+        i = torch.from_numpy(relu.call(rand))
+        for x, y in zip(t, i):
+            for i, j in zip(x, y):
+                assert round(i, 10) == round(j, 10)
+
 
     def test_mean_squared_error(self):
         a = 3
