@@ -25,7 +25,7 @@ class TestLinearLayer(TestCase):
     def test_biases_are_initialized_correctly(self):
         input = randint(5, 10)
         output = randint(5, 10)
-        biases = np.asarray([randint(1, 5) for i in range(input)])
+        biases = np.asarray([[randint(1, 5)] for i in range(output)])
         linear = Linear(Net(Sigmoid), input, output, np.ndarray(0), biases)
         self.assertTrue(np.array_equal(linear.biases, biases))
 

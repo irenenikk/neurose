@@ -3,7 +3,7 @@ import numpy as np
 
 class Net:
 
-    def __init__(self, loss_function, learning_rate=0.75):
+    def __init__(self, loss_function, learning_rate=0.5):
         self.loss = loss_function
         self.learning_rate = learning_rate
         self.init_parameters()
@@ -21,14 +21,14 @@ class Net:
     def save_output(self, output):
         self.saved_outputs.append(output)
 
-    def save_weights_and_biases(self, weights, biases, index=-1):
-        if index == -1:
+    def save_weights_and_biases(self, weights, biases, index=None):
+        if index is not None:
+            self.saved_weights[index] = weights
+            self.saved_biases[index] = biases
+        else:
             self.saved_weights.append(weights)
             self.saved_biases.append(biases)
             return len(self.saved_weights) - 1
-        else:
-            self.saved_weights[index] = weights
-            self.saved_biases[index] = biases
 
     def save_activation_function(self, func):
         self.saved_activation_functions.append(func)
@@ -45,7 +45,7 @@ class Net:
 
     def calculate_loss(self, predictions, labels):
         if not predictions.shape == labels.shape:
-            raise ValueError('predictions and labels not the same shape: {} and {}'.format(predictions, labels))
+            raise ValueError('predictions and labels not the same shape: {} and {}'.format(predictions.shape, labels.shape))
         self.loss_derivative = self.loss.derivative(predictions, labels)
         return self.loss.call(predictions, labels)
 
@@ -65,12 +65,13 @@ class Net:
     def update_weights(self):
         if not hasattr(self, 'errors'):
             raise ValueError('backpropagate not called before updating weights')
-        for i in range(len(self.saved_weights)-1):
-            #print('errors[i+1]: {}'.format(self.errors[i+1].shape))
-            #print('saved inputs: {}'.format(self.saved_outputs[i].shape))
-            gradient = np.dot(self.errors[i+1], self.saved_outputs[i].T)
-            #print('g: {}'.format(gradient))
+        # output layer is not backpropagated
+        gradients = []
+        for i in range(len(self.saved_weights)):
+            gradient = np.dot(self.errors[i+1], self.saved_inputs[i].T)
             self.saved_weights[i] -= gradient * self.learning_rate
+            gradients.append(gradient)
+        return gradients
 
     def reset_saved_parameters(self):
         self.init_parameters()

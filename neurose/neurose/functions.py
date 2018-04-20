@@ -1,6 +1,6 @@
 import numpy as np
 from functools import reduce
-from functools import reduce
+import math
 
 
 # parent class for all activation functions
@@ -23,6 +23,15 @@ class DifferentiableFunction:
 
     def derivative(self, x):
         raise NotImplementedError
+
+# When we don't want to use any activation
+class Passive(DifferentiableFunction):
+
+    def func(self, x):
+        return x
+
+    def derivative(self, x):
+        return np.ones(x.shape)
 
 
 # Just your average activation function
@@ -78,17 +87,24 @@ class MeanSquaredError:
             raise ValueError('Loss functions require lists as inputs: {}'.format(outputs, labels))
         if not len(outputs) == len(labels):
             raise ValueError('Outputs and labels are a different length: {} and {}'.format(len(outputs), len(labels)))
+        if len(outputs) == 0 or len(labels) == 0:
+            raise ValueError('No outputs or labels given')
         sum = 0
         for o, l in zip(outputs, labels):
             if not len(o) == len(l): raise ValueError('Outputs and labels are of different dimesion: {} and {}'.format(o, l))
             # Use Euclidean distance between vectors to define a pass specific error
-            sum += (np.linalg.norm(o - l)) ** 2
+            distance = np.linalg.norm(o - l)
+            if math.isnan(distance):
+                print('o and l: {}\n{}'.format(o, l))
+            sum += (distance) ** 2
         # The mean is calculated element wise
-        return sum/(len(outputs)*len(outputs[0]))
+        mean = sum/(len(outputs)*len(outputs[0]))
+        return mean
 
     # calculations in notes about backpropagation
     @staticmethod
     def derivative(outputs, labels):
         batch_size = len(outputs)
         dimension = len(outputs[0])
-        return (2/batch_size*dimension)*np.linalg.norm(outputs - labels)
+        return 2/(batch_size*dimension)*np.linalg.norm(outputs - labels)
+
