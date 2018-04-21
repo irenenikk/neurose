@@ -22,7 +22,7 @@ class Linear:
             raise ValueError('Initial biases not the right dimension: {} not {}'
                              .format(initial_biases.shape, (output_size,)))
 
-        self.weights = initial_weights if initial_weights.size > 0 else np.random.normal(size=(output_size, input_size))
+        self.weights = initial_weights if initial_weights.size > 0 else np.random.random(size=(output_size, input_size))
         self.biases = initial_biases if initial_biases.size > 0 else np.random.random(output_size)
 
     def forward(self, input):
