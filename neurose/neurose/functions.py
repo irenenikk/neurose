@@ -105,7 +105,8 @@ class MeanSquaredError:
         sum = 0
         for o, l in zip(outputs, labels):
             if not len(o) == len(l): raise ValueError('Outputs and labels are of different dimesion: {} and {}'.format(o, l))
-            sum += (o - l) ** 2
+            # Use Euclidean distance
+            sum += np.linalg.norm(o - l) ** 2
         # The mean is calculated element wise
         mean = sum/(len(outputs)*len(outputs[0]))
         return mean
