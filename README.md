@@ -21,6 +21,8 @@ All the weekly reports and documentation is in the [wiki](https://github.com/ire
 
 ## Running the example model
 
+The example model is just overfitting to a simple linear regression problem. It doesn't even have an activation function.
+
 0. Make sure you have python 3.x
 
 1. After cloning the project, install depedencies with `pip install -r path/to/requirements.txt`
