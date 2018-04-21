@@ -4,6 +4,14 @@ import numpy as np
 class Linear:
 
     def __init__(self, network, input_size, output_size, initial_weights=np.ndarray(0), initial_biases=np.ndarray(0)):
+        """
+        :param network: The neural network this layer belongs to.
+        :param input_size: Amount of input neurons.
+        :param output_size: Amount of output neurons.
+        :param initial_weights: Initial weights. Random ones are seeded if none given. Giving initial weights makes
+        teh functionality of the layer deterministic.
+        :param initial_biases: Initial biases for this layer. Random ones are seeded if none given.
+        """
         self.network = network
         if input_size < 0 or output_size < 0:
             raise ValueError('Input and output sizes have to be positive for linear layer')
@@ -13,14 +21,16 @@ class Linear:
         if initial_biases.size > 0 and not initial_biases.shape == (output_size, ):
             raise ValueError('Initial biases not the right dimension: {} not {}'
                              .format(initial_biases.shape, (output_size,)))
-        # initialize random weights if none given
+
         self.weights = initial_weights if initial_weights.size > 0 else np.random.normal(size=(output_size, input_size))
         self.biases = initial_biases if initial_biases.size > 0 else np.random.random(output_size)
 
-    # this is basically a wrapper for forward_pass
-    # where we save all the parameters needed in backpropagation
     def forward(self, input):
-        # the weights have to be updated, which is done by the network
+        """
+        This is basically a wrapper for forward_pass, where we save all the parameters needed in backpropagation
+        :param input: input for a specific layer of shape (batch_size, input_dimension)
+        :return: output of this layer after adding weights and biases of shape (batch_size, output_dimension)
+        """
         # so if it's not the first forward pass let's take the updated weights
         if len(self.network.saved_weights) > 0 and hasattr(self, 'index'):
             self.weights = self.network.saved_weights[self.index]
@@ -45,6 +55,12 @@ class Linear:
         return weighted
 
     def forward_pass(self, input):
+        """
+        Where the matrix magic happens. Sum the products of the outputs of each neuron of the last layer with its weight.
+        Add biases in the end.
+        :param input: input for a specific layer of shape (batch_size, input_dimension)
+        :return: output of this layer after adding weights and biases of shape (batch_size, output_dimension)
+        """
         return np.dot(input, self.weights.T) + self.biases
 
 

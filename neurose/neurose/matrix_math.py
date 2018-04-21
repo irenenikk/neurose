@@ -10,6 +10,10 @@ class MatrixMath:
 
     @staticmethod
     def dot(matrix1, matrix2):
+        """
+        Matrix multiplication.
+        :return: The dot product of matrix1 and matrix2.
+        """
         if len(matrix1) == 0 or len(matrix2) == 0:
             return []
         # the matrices can be implicitly changed from a single vector to matrix
