@@ -46,7 +46,7 @@ for i in range(500):
 
     loss = e.calculate_loss(output, actual)
 
-    print('loss for expoch {} x: {}'.format(i, loss))
+    print('loss for expoch {}: {}'.format(epoch, loss))
 
     e.backpropagate()
 
