@@ -35,7 +35,7 @@ class Net:
 
     def forward(self, input):
         # The transposing needs to be done for the matrix multiplication to work
-        return self.forward_pass(np.array(input).T).T
+        return self.forward_pass(np.array(input))
 
     def forward_pass(self, x):
         # This is where forward pass is defined
@@ -56,9 +56,9 @@ class Net:
         no_layers = len(self.saved_weights) + 1
         errors = [None] * no_layers
         # base case error
-        errors[-1] = self.loss_derivative * self.saved_activation_functions[-1].derivative(self.saved_inputs[-1])
-        for i in range(no_layers - 2, -1, -1):
-            errors[i] = np.dot(np.asarray(self.saved_weights[i].T), errors[i+1]) \
+        errors[-1] = self.loss_derivative
+        for i in range(no_layers - 2, 0, -1):
+            errors[i] = np.dot(errors[i+1], np.asarray(self.saved_weights[i])) \
                        * self.saved_activation_functions[i].derivative(self.saved_inputs[i])
         self.errors = errors
 
@@ -68,7 +68,7 @@ class Net:
         # output layer is not backpropagated
         gradients = []
         for i in range(len(self.saved_weights)):
-            gradient = np.dot(self.errors[i+1], self.saved_inputs[i].T)
+            gradient = np.dot(self.errors[i+1].T, self.saved_outputs[i])
             self.saved_weights[i] -= gradient * self.learning_rate
             gradients.append(gradient)
         return gradients

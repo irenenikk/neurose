@@ -92,11 +92,7 @@ class MeanSquaredError:
         sum = 0
         for o, l in zip(outputs, labels):
             if not len(o) == len(l): raise ValueError('Outputs and labels are of different dimesion: {} and {}'.format(o, l))
-            # Use Euclidean distance between vectors to define a pass specific error
-            distance = np.linalg.norm(o - l)
-            if math.isnan(distance):
-                print('o and l: {}\n{}'.format(o, l))
-            sum += (distance) ** 2
+            sum += (o - l) ** 2
         # The mean is calculated element wise
         mean = sum/(len(outputs)*len(outputs[0]))
         return mean
@@ -106,5 +102,5 @@ class MeanSquaredError:
     def derivative(outputs, labels):
         batch_size = len(outputs)
         dimension = len(outputs[0])
-        return 2/(batch_size*dimension)*np.linalg.norm(outputs - labels)
+        return 2/(batch_size*dimension)*(outputs - labels)
 

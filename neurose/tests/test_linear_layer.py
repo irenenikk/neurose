@@ -11,7 +11,7 @@ class TestLinearLayer(TestCase):
     def test_linear_layer_output_correct_shape(self):
         input = randint(5, 10)
         output = randint(5, 10)
-        a = [[randint(0, 5)] for i in range(input)]
+        a = [randint(0, 5) for i in range(input)]
         linear = Linear(Net(Sigmoid), input, output)
         self.assertTrue(len(linear.forward(a)) == output)
 
@@ -25,7 +25,7 @@ class TestLinearLayer(TestCase):
     def test_biases_are_initialized_correctly(self):
         input = randint(5, 10)
         output = randint(5, 10)
-        biases = np.asarray([[randint(1, 5)] for i in range(output)])
+        biases = np.asarray([randint(1, 5) for i in range(output)])
         linear = Linear(Net(Sigmoid), input, output, np.ndarray(0), biases)
         self.assertTrue(np.array_equal(linear.biases, biases))
 
@@ -38,7 +38,8 @@ class TestLinearLayer(TestCase):
     def test_raises_error_if_biases_not_right_dimension(self):
         input = randint(5, 10)
         output = randint(5, 10)
-        biases = np.ndarray(input + 2)
+        # biases should be the dimension of output
+        biases = np.ndarray(output + 2)
         self.assertRaises(ValueError, Linear, Net(Sigmoid), input, output, np.ndarray(0), biases)
 
     def test_saves_inputs_outputs_and_weights_to_network(self):

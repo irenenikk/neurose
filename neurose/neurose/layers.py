@@ -10,12 +10,12 @@ class Linear:
         if initial_weights.size > 0 and not initial_weights.shape == (output_size, input_size):
             raise ValueError('Initial weights not the right dimension: {} not {}'
                              .format(initial_weights, (output_size, input_size)))
-        if initial_biases.size > 0 and not initial_biases.shape == (output_size,1):
+        if initial_biases.size > 0 and not initial_biases.shape == (output_size, ):
             raise ValueError('Initial biases not the right dimension: {} not {}'
-                             .format(initial_biases.shape, (output_size,1)))
+                             .format(initial_biases.shape, (output_size,)))
         # initialize random weights if none given
         self.weights = initial_weights if initial_weights.size > 0 else np.random.normal(size=(output_size, input_size))
-        self.biases = initial_biases if initial_biases.size > 0 else np.random.random((output_size, 1))
+        self.biases = initial_biases if initial_biases.size > 0 else np.random.random(output_size)
 
     # this is basically a wrapper for forward_pass
     # where we save all the parameters needed in backpropagation
@@ -45,6 +45,6 @@ class Linear:
         return weighted
 
     def forward_pass(self, input):
-        return np.dot(self.weights, input) + self.biases
+        return np.dot(input, self.weights.T) + self.biases
 
 
