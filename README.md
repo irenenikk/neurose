@@ -47,12 +47,12 @@ For example, the following network
 ```python
 from net import Net
 from layers import Linear
-from functions import MeanSquaredError as MSE
+from functions import MeanSquaredError, Sigmoid
 
 class Example(Net):
 
     def __init__(self):
-        super().__init__(MSE, learning_rate=0.02)
+        super().__init__(MeanSquaredError, learning_rate=0.02)
         self.a1 = Sigmoid(self)
         self.l1 = Linear(self, 3, 4)
         self.l2 = Linear(self, 4, 2)
