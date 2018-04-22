@@ -55,7 +55,7 @@ class Example(Net):
         super().__init__(MSE, learning_rate=0.02)
         self.a1 = Sigmoid(self)
         self.l1 = Linear(self, 3, 4)
-        self.l2 = Linear(self, 4, 1)
+        self.l2 = Linear(self, 4, 2)
 
     def forward_pass(self, input):
         x = self.a1.call(self.l1.forward(input))
