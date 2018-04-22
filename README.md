@@ -1,7 +1,7 @@
 # Neurose
 #### A simple neural network library for your simple neural network needs. 
 
-All the weekly reports and documentation is in the [wiki](/wiki). There you will also find some calculations and notes about neural networks and the algorithms used.
+All the weekly reports and documentation is in the [wiki](https://github.com/irenenikk/neurose/wiki). There you will also find some calculations and notes about neural networks and the algorithms used.
 
 ## Current features:
 - Linear layer with biases
@@ -22,7 +22,7 @@ All the weekly reports and documentation is in the [wiki](/wiki). There you will
 
 ## Running the example model
 
-At the moment the example model is just overfitting to a simple linear regression problem to prove that the model can learn something. The input is currently `[1, 2, 3, 4]` and the true labels `[2, 4, 6, 8]`. Feel free to toy around with the amount of trianing epochs (iterations of the training loop). **The code still has a bug which results in many nans and infs, if this happens, run the model again**. I wrote some speculations about the bug in [the fifth weekly report](wiki/Weekly-report-5).
+At the moment the example model is just overfitting to a simple linear regression problem to prove that the model can learn something. The input is currently `[1, 2, 3, 4]` and the true labels `[2, 4, 6, 8]`. Feel free to toy around with the amount of trianing epochs (iterations of the training loop). **The code still has a bug which results in many nans and infs, if this happens, run the model again**. I wrote some speculations about the bug in [the fifth weekly report](https://github.com/irenenikk/neurose/wiki/Weekly-report-5).
 
 0. Make sure you have python 3.x
 
