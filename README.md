@@ -8,6 +8,7 @@ All the weekly reports and documentation is in the [wiki](https://github.com/ire
 - Activation functions:
   - Sigmoid
   - ReLu
+  - SoftMax
   - Passive (no activation)
 - Loss functions
   - Mean squared error
