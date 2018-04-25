@@ -32,7 +32,7 @@ But at the moment the weights are initalized with the uniform distribution.
 
 See notes about training a neural network in the wiki.
 """
-for i in range(500):
+for epoch in range(500):
     e.reset_saved_parameters()
 
     input = np.asarray([[1], [2], [3], [4]])

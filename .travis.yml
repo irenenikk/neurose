@@ -1,0 +1,9 @@
+language: python
+python:
+  - "3.6.4"
+install:
+  # pip install is too verbose for travis
+  - pip install --quiet -r neurose/requirements.txt
+script:
+  - cd neurose
+  - pytest
