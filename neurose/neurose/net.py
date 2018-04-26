@@ -78,7 +78,7 @@ class Net:
         errors = [None] * no_layers
         # base case error
         # loss_derivative is defined when loss is calculated
-        errors[-1] = self.loss_derivative
+        errors[-1] = self.loss_derivative * self.saved_activation_functions[-1].derivative(self.saved_inputs[-1])
         # the last layer was the base case, so we don't iterate over it
         # range is not inclusive of the ending point
         for i in range(no_layers - 2, -1, -1):
