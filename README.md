@@ -40,7 +40,7 @@ Neurose is used in a very similar way to Pytorch. In `example.py` you will find 
 
 ### Defining the architecture:
 
-Define a class which inherits neuros's `Net`. The parent initializer takes the loss function and learning rate as parameters: here the loss function is mean squared error, and the learning rate `0.02`. Like in Pytorch, you have to define the forward pass manually by transforming the input and returning it. The activation functions are used with `call` and the layers using `forward`. The network is passed to the activation functions and layers so that parameters can be saved for backpropagation during feedforward. **Note that unlike with Pytorch, if you don't want to use an activation, you have to use the "Passive" activation function, and its call-method on feed forward like it was a normal activation.**
+Define a class which inherits neuros's `Net`. The parent initializer takes the loss function and learning rate as parameters: here the loss function is mean squared error, and the learning rate `0.02`. Like in Pytorch, you have to define the forward pass manually by transforming the input and returning it. The activation functions are used with `call` and the layers using `forward`. The network is passed to the activation functions and layers so that parameters can be saved for backpropagation during feedforward. Note that unlike with Pytorch, if you don't want to use an activation function, you have to use the "Passive" activation function, and its call method on feed forward.
 
 For example, the following network
 
