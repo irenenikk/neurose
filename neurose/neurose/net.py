@@ -70,7 +70,7 @@ class Net:
     def backpropagate(self):
         """
         Calculate how much each weight affected the loss of the forward pass.
-        This is done using dervating. See notes about backpropagation in the wiki for some neat math stuff.
+        This is done using derivatives. See notes about backpropagation in the wiki for some neat math stuff.
         """
         if not hasattr(self, 'loss_derivative'):
             raise ValueError('calculate_loss not called before backpropagation')

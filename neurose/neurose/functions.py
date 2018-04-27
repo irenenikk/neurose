@@ -5,7 +5,7 @@ import math
 
 class DifferentiableFunction:
     """
-    Parent class for all activation functions. Is used to store the activation functions of each layer for backpropagation
+    Parent class for all activation functions. Is used to store the activation functions of each layer for backpropagation.
     """
     def __init__(self, net):
         self.net = net
@@ -27,7 +27,7 @@ class DifferentiableFunction:
 
 class Passive(DifferentiableFunction):
     """
-    When you don't want to use an activation function an a layer, use this.
+    When you don't want to use an activation function an a layer, use this. Is also called "linear activation function".
     """
     def func(self, x):
         return x
@@ -97,7 +97,7 @@ class MeanSquaredError:
         :return: The mean square error of a specific batch
         """
         if not isinstance(outputs, np.ndarray) or not isinstance(labels, np.ndarray):
-            raise ValueError('Loss functions require lists as inputs: {}'.format(outputs, labels))
+            raise ValueError('Loss functions require np arrays as inputs: {}'.format(outputs, labels))
         if not len(outputs) == len(labels):
             raise ValueError('Outputs and labels are a different length: {} and {}'.format(len(outputs), len(labels)))
         if len(outputs) == 0 or len(labels) == 0:
