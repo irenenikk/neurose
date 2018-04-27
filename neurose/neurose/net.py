@@ -88,6 +88,10 @@ class Net:
         self.errors = errors
 
     def update_weights(self):
+        """
+        Update the network's parameters (weights and biases) based on the errors calculated in backpropagation.
+        :return: gradients, which ares used in tests
+        """
         if not hasattr(self, 'errors'):
             raise ValueError('backpropagate not called before updating weights')
         # the gradients are used in tests
@@ -95,6 +99,12 @@ class Net:
         for i in range(len(self.saved_weights)):
             gradient = np.dot(self.errors[i+1].T, self.saved_outputs[i])
             self.saved_weights[i] -= gradient * self.learning_rate
+            # it's a batch so we have to sum all the biases to get just one update
+            # numpy doesn't support broadcasting the way I would hope so there's some annoying reshaping here
+            self.saved_biases[i] = np.array(self.saved_biases[i]).astype('float64')
+            tmp_biases = np.asarray(self.saved_biases[i]).astype('float64').reshape((len(self.saved_biases[i]), 1))
+            tmp_biases -= np.sum(self.errors[i+1].T, axis=1, keepdims=True) * self.learning_rate
+            self.saved_biases[i] = tmp_biases.reshape(len(self.saved_biases[i]))
             gradients.append(gradient)
         return gradients
 

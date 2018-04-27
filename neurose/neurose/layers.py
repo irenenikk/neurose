@@ -23,7 +23,7 @@ class Linear:
                              .format(initial_biases.shape, (output_size,)))
 
         self.weights = initial_weights if initial_weights.size > 0 else np.random.random(size=(output_size, input_size))
-        self.biases = initial_biases if initial_biases.size > 0 else np.random.random(output_size)
+        self.biases = initial_biases if initial_biases.size > 0 else np.ones(output_size)
 
     def forward(self, input):
         """
@@ -34,6 +34,8 @@ class Linear:
         # so if it's not the first forward pass let's take the updated weights
         if len(self.network.saved_weights) > 0 and hasattr(self, 'index'):
             self.weights = self.network.saved_weights[self.index]
+        if len(self.network.saved_biases) > 0 and hasattr(self, 'index'):
+            self.biases = self.network.saved_biases[self.index]
         if len(self.network.saved_inputs) == 0 and len(self.network.saved_outputs) == 0:
             # the first layer just passes the input to hidden layers
             # these are used in backpropagation

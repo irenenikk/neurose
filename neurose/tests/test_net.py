@@ -153,14 +153,27 @@ class TestNet(TestCase):
         )
         self.do_torch_training_round(torch_network)
         # parameters() contains biases as well, so let's only take the weights
-        torch_weights = []
-        for i, p in enumerate(torch_network.parameters()):
-            if i % 2 == 0:
-                torch_weights.append(p)
+        torch_biases, torch_weights = self.collect_torch_variables(torch_network)
         for t, m in zip(torch_weights, e.saved_weights):
             self.assert_list_is_equal_to_tensor(m, t)
         for t, m in zip(torch_weights, gradients):
             self.assert_list_is_equal_to_tensor(m, t.grad)
+        for t, m in zip(torch_biases, e.saved_biases):
+            self.assert_vector_is_equal_to_tensor(m, t)
+
+    def collect_torch_variables(self, torch_network):
+        torch_weights = []
+        torch_biases = []
+        for i, p in enumerate(torch_network.parameters()):
+            if i % 2 == 0:
+                torch_weights.append(p)
+            else:
+                torch_biases.append(p)
+        return torch_biases, torch_weights
+
+    def assert_vector_is_equal_to_tensor(self, m, t):
+        for i in range(len(t)):
+            assert round(m[i], 2) == round(t[i].data[0], 2)
 
     def do_torch_training_round(self, torch_network):
         opt = optim.SGD(torch_network.parameters(), lr=0.02)
@@ -205,14 +218,13 @@ class TestNet(TestCase):
         torch_network = TorchWithActivation()
         self.do_torch_training_round(torch_network)
         # parameters() contains biases as well, so let's only take the weights
-        torch_weights = []
-        for i, p in enumerate(torch_network.parameters()):
-            if i % 2 == 0:
-                torch_weights.append(p)
+        torch_biases, torch_weights = self.collect_torch_variables(torch_network)
         for t, m in zip(torch_weights, e.saved_weights):
             self.assert_list_is_equal_to_tensor(m, t)
         for t, m in zip(torch_weights, gradients):
             self.assert_list_is_equal_to_tensor(m, t.grad)
+        for t, m in zip(torch_biases, e.saved_biases):
+            self.assert_vector_is_equal_to_tensor(m, t)
 
     def do_neurose_training_round(self, e):
         input = self.get_lin_regression_inputs()

@@ -1,5 +1,5 @@
 # Neurose
-#### A simple neural network library for your simple neural network needs. 
+#### A simple neural network library for your simple neural network needs.
 
 All the weekly reports and documentation is in the [wiki](https://github.com/irenenikk/neurose/wiki). There you will also find some calculations and notes about neural networks and the algorithms used.
 
@@ -16,7 +16,7 @@ All the weekly reports and documentation is in the [wiki](https://github.com/ire
 
 ## Todo:
 
-- [ ] Backpropagate biases
+- [x] Backpropagate biases
 - [ ] Add cross entropy loss
 - [ ] Build an example with MNIST
 
@@ -99,9 +99,9 @@ Do some sweet deriving:
   example.backpropagate()
 ```
 
-Update the weights of the network (backpropagating biases not implemented yet):
+Update the weights and biases of the network:
 
-```python 
+```python
     example.update_weights()
 ```
 
