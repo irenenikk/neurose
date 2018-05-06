@@ -55,14 +55,12 @@ class SoftMax(DifferentiableFunction):
     Is used mostly in output layer to obtain probabilities
     """
 
-    def func(self, inp):
-        # All this transposing just to support batches
-        x = inp.T
+    def func(self, x):
         out = []
         for i in range(len(x)):
             z = reduce(lambda val, sum: sum + val, np.exp(x[i]))
             out.append(np.exp(x[i])/z)
-        return np.asarray(out).T
+        return np.asarray(out)
 
     def derivative(self, x):
         s = np.array(self.call(x))

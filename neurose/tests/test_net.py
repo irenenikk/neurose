@@ -60,6 +60,31 @@ class TorchWithActivation(nn.Module):
        x = F.relu(self.l1(x))
        return F.sigmoid(self.l2(x))
 
+class TestWithSoftmax(Net):
+
+    def __init__(self):
+        super().__init__(MSE, learning_rate=0.02)
+        self.a1 = Passive(self)
+        self.a2 = SoftMax(self)
+        self.l1 = Linear(self, 1, 5, np.asarray(weights1), np.asarray(my_biases1))
+        self.l3 = Linear(self, 5, 1, np.asarray(weights2), np.asarray(my_biases2))
+
+    def forward_pass(self, input):
+        x = self.a1.call(self.l1.forward(input))
+        x = self.a2.call(self.l3.forward(x))
+        return x
+
+
+class TorchWithSoftmax(nn.Module):
+
+    def __init__(self):
+        super(TorchWithSoftmax, self).__init__()
+        self.l1 = nn.Linear(1, 5)
+        self.l2 = nn.Linear(1, 5)
+
+    def forward(self, x):
+       x = self.l1(x)
+       return F.softmax(self.l2(x), dim=1)
 
 class TestNet(TestCase):
 
@@ -216,6 +241,36 @@ class TestNet(TestCase):
         gradients = self.do_neurose_training_round(e)
         # train torch
         torch_network = TorchWithActivation()
+        self.do_torch_training_round(torch_network)
+        # parameters() contains biases as well, so let's only take the weights
+        torch_biases, torch_weights = self.collect_torch_variables(torch_network)
+        for t, m in zip(torch_weights, e.saved_weights):
+            self.assert_list_is_equal_to_tensor(m, t)
+        for t, m in zip(torch_weights, gradients):
+            self.assert_list_is_equal_to_tensor(m, t.grad)
+        for t, m in zip(torch_biases, e.saved_biases):
+            self.assert_vector_is_equal_to_tensor(m, t)
+
+    def test_forward_pass_with_softmax(self):
+        # with torch
+        torch_network = TorchWithSoftmax()
+        opt = optim.SGD(torch_network.parameters(), lr=0.02)
+        self.set_initial_weights(torch_network)
+        # with neurose
+        e = TestWithSoftmax()
+        input = self.get_lin_regression_inputs()
+        x = Variable(torch.FloatTensor([1, 2, 3, 4]).unsqueeze(1))
+        # check that outuputs are the same
+        my_output = e.forward(input)
+        torch_output = torch_network(x)
+        self.assert_list_is_equal_to_tensor(my_output, torch_output)
+
+    def test_weight_backpropagation_with_softmax(self):
+        # train neurose
+        e = TestWithSoftmax()
+        gradients = self.do_neurose_training_round(e)
+        # train torch
+        torch_network = TorchWithSoftmax()
         self.do_torch_training_round(torch_network)
         # parameters() contains biases as well, so let's only take the weights
         torch_biases, torch_weights = self.collect_torch_variables(torch_network)

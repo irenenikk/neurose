@@ -22,7 +22,7 @@ class TestFunctions(TestCase):
     def test_softmax(self):
         rand = np.asarray([[randint(0, 10) for i in range(2)] for i in range(3)])
         softmax = SoftMax(Net(MeanSquaredError))
-        torch_result = F.softmax(Variable(torch.DoubleTensor(rand)), dim=0)
+        torch_result = F.softmax(Variable(torch.DoubleTensor(rand)), dim=1)
         t = torch_result.data
         i = torch.from_numpy(softmax.call(rand))
         for x, y in zip(t, i):
@@ -37,7 +37,8 @@ class TestFunctions(TestCase):
         i = torch.from_numpy(relu.call(rand))
         for x, y in zip(t, i):
             for i, j in zip(x, y):
-                assert round(i, 10) == round(j, 10)
+                print(i)
+                assert torch.round(i, 10) == round(j, 10)
 
 
     def test_mean_squared_error(self):
