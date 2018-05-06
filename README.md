@@ -17,7 +17,7 @@ All the weekly reports and documentation is in the [wiki](https://github.com/ire
 ## Todo:
 
 - [x] Backpropagate biases
-- [ ] Add cross entropy loss
+- [x] Add cross entropy loss
 - [ ] Build an example with MNIST
 
 ## Running the example model
