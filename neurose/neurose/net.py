@@ -19,9 +19,17 @@ class Net:
         self.saved_outputs = []
 
     def save_input(self, input):
+        """
+        Saved for backpropagation. Saves the input of a layer (before activation is applied).
+        :param input: input to a layer
+        """
         self.saved_inputs.append(input)
 
     def save_output(self, output):
+        """
+        Saved for backpropagation. Saves the output of a layer (after activation is applied).
+        :param output: output of a layer
+        """
         self.saved_outputs.append(output)
 
     def save_weights_and_biases(self, weights, biases, index=None):
@@ -39,6 +47,10 @@ class Net:
             return len(self.saved_weights) - 1
 
     def save_activation_function(self, func):
+        """
+        Saved for backpropagation.
+        :param func: The activation function of a specific layer.
+        """
         self.saved_activation_functions.append(func)
 
     def forward(self, input):

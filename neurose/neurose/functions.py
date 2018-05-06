@@ -1,6 +1,5 @@
 import numpy as np
 from functools import reduce
-import math
 
 
 class DifferentiableFunction:
@@ -147,4 +146,8 @@ class CrossEntropy:
 
     @staticmethod
     def derivative(outputs, labels):
+        """
+        See https://deepnotes.io/softmax-crossentropy for calculations
+        The labels have to be reshaped so that numpy can broadcast them to match outputs' shape
+        """
         return outputs - np.reshape(labels, (len(labels), 1))

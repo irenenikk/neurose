@@ -1,7 +1,7 @@
 import numpy as np
 from net import Net
 from layers import Linear
-from functions import ReLu, SoftMax, Passive
+from functions import Passive
 from functions import MeanSquaredError as MSE
 
 
@@ -26,9 +26,6 @@ e = Ex()
 Here we are trying to teach the neural network a simple linear regression problem.
 For now this is just overfitting to the same few data points to show that the network can actually learn something.
 Look at the output: it should converge to [2, 4, 6, 8]
-If the weights are initialized with normal distribution, 
-there's still a weird bug where sometimes the network goes to a completely wrong direction and ends up printing inf/nan.
-But at the moment the weights are initalized with the uniform distribution.
 
 See notes about training a neural network in the wiki.
 """
