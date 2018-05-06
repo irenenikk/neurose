@@ -96,8 +96,8 @@ class MeanSquaredError:
         """
         if not isinstance(outputs, np.ndarray) or not isinstance(labels, np.ndarray):
             raise ValueError('Loss functions require np arrays as inputs: {}'.format(outputs, labels))
-        if not len(outputs) == len(labels):
-            raise ValueError('Outputs and labels are a different length: {} and {}'.format(len(outputs), len(labels)))
+        if not outputs.shape == labels.shape:
+            raise ValueError('Outputs and labels are a different shape: {} and {}'.format(outputs.shape, labels.shape))
         if len(outputs) == 0 or len(labels) == 0:
             raise ValueError('No outputs or labels given')
         sum = 0
@@ -119,3 +119,32 @@ class MeanSquaredError:
         dimension = len(outputs[0])
         return 2/(batch_size*dimension)*(outputs - labels)
 
+
+class CrossEntropy:
+
+    @staticmethod
+    def call(outputs, labels):
+        """
+        This is implemented in exactly the same way as in Pytorch. See https://pytorch.org/docs/master/nn.html#torch.nn.CrossEntropyLoss
+        :param outputs: is of shape (b, n), where b is batch size and n is the number of classes.
+        :param labels: is of shape (b, )
+        """
+        if not isinstance(outputs, np.ndarray) or not isinstance(labels, np.ndarray):
+            raise ValueError('Loss functions require np arrays as inputs: {}'.format(outputs, labels))
+        if not len(outputs) == len(labels):
+            raise ValueError('Outputs and labels are a different length: {} and {}'.format(len(outputs), len(labels)))
+        if len(outputs) == 0 or len(labels) == 0:
+            raise ValueError('No outputs or labels given')
+        no_samples = len(outputs)
+        sum = 0
+        for i in range(len(labels)):
+            exp = np.exp(outputs[i])
+            log = np.log(np.sum(exp))
+            label = labels[i]
+            output = outputs[i][label]
+            sum += -output + log
+        return 1/no_samples * sum
+
+    @staticmethod
+    def derivative(outputs, labels):
+        return outputs - np.reshape(labels, (len(labels), 1))

@@ -1,13 +1,15 @@
 from unittest import TestCase
 from torch.nn import Sigmoid as TorchSigmoid
 from torch.nn import MSELoss as TorchMSE
+from torch.nn import CrossEntropyLoss as TorchCrossEntropy
 import torch.nn.functional as F
 from torch.autograd import Variable
 import torch
 from random import randint
-from neurose.functions import Sigmoid, SoftMax, MeanSquaredError, ReLu
+from neurose.functions import Sigmoid, SoftMax, MeanSquaredError, ReLu, CrossEntropy
 from neurose.net import Net
 import numpy as np
+import random
 
 
 class TestFunctions(TestCase):
@@ -37,8 +39,7 @@ class TestFunctions(TestCase):
         i = torch.from_numpy(relu.call(rand))
         for x, y in zip(t, i):
             for i, j in zip(x, y):
-                print(i)
-                assert torch.round(i, 10) == round(j, 10)
+                assert round(i, 10) == round(j, 10)
 
 
     def test_mean_squared_error(self):
@@ -60,3 +61,14 @@ class TestFunctions(TestCase):
         a = np.asarray([[randint(0, 10) for j in range(2)] for i in range(5)])
         b = np.asarray([[randint(0, 10) for j in range(2)] for i in range(3)])
         self.assertRaises(ValueError, MeanSquaredError.call, a, b)
+
+    def test_cross_entropy_loss(self):
+        a = 2
+        b = 3
+        outputs = np.asarray([[random.uniform(0.1, 0.9) for j in range(a)] for i in range(b)])
+        labels = np.asarray([randint(1, a-1) for i in range(b)])
+        torch_func = TorchCrossEntropy()
+        torch_result = torch_func(Variable(torch.from_numpy(outputs).double()), Variable(torch.from_numpy(labels).long()))
+        my_result = CrossEntropy.call(outputs, labels)
+        assert (round(torch_result.data[0], 10) == round(my_result, 10))
+

@@ -6,7 +6,7 @@ class MatrixMath:
 
     @staticmethod
     def raise_value_error(m1, m2):
-        raise ValueError('Incompatible dimensions: {} dot {}'.format(m1, m2))
+        raise ValueError('Incompatible dimensions: {} dot {}'.format(np.asarray(m1).shape, np.asarray(m2).shape))
 
     @staticmethod
     def dot(matrix1, matrix2):

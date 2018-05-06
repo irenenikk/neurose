@@ -62,7 +62,7 @@ class Net:
         :param predictions: Output of the neural network of shape (batch_size, output_dimension)
         :param labels: True labels of each input of shape (batch_size, output_dimension)
         """
-        if not predictions.shape == labels.shape:
+        if not len(predictions) == len(labels):
             raise ValueError('predictions and labels not the same shape: {} and {}'.format(predictions.shape, labels.shape))
         self.loss_derivative = self.loss.derivative(predictions, labels)
         return self.loss.call(predictions, labels)
