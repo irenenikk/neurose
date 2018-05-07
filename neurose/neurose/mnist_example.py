@@ -27,15 +27,15 @@ class Ex(Net):
         return x
 
 def get_prediction(vector):
-    preds = np.zero((len(vector), 1))
+    preds = np.zeros(len(vector))
     max = 0
     max_indx = 0
-    for o in vector:
-        for i, v in enumerate(vector[o]):
+    for j, o in enumerate(vector):
+        for i, v in enumerate(o):
             if v > max:
                 max = v
                 max_indx = i
-        preds[o] = max_indx
+        preds[j] = max_indx
     return preds
 
 
@@ -49,7 +49,7 @@ test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size=256, num_
 e = Ex()
 
 train_start = time.time()
-for epoch in range(5):
+for epoch in range(100):
 
     epoch_start = time.time()
 
@@ -73,7 +73,7 @@ for epoch in range(5):
         e.update_weights()
 
     print('loss for epoch {}: {}'.format(epoch, loss))
-    print('epoch took {} minutes'.format((time.time() - epoch_start)/60))
+    print('epoch took {} minutes'.format((time.time() - epoch_start) / 60))
 
 print('done training')
 print('training took {} minutes'.format((time.time() - train_start) / 60))
@@ -81,6 +81,8 @@ print('training took {} minutes'.format((time.time() - train_start) / 60))
 print('testing')
 
 accuracy = 0
+
+total = 0
 
 for x, y in test_dataloader:
 
@@ -94,8 +96,12 @@ for x, y in test_dataloader:
 
     preds = get_prediction(output)
 
-    accuracy += sum(actual == preds)
+    correct = sum(actual == preds)
 
-print('Test accuracy: {}'.format(accuracy/len(test_dataloader)))
+    accuracy += correct
+
+    total += len(actual)
+
+print('Test accuracy: {}'.format(accuracy/total))
 
 

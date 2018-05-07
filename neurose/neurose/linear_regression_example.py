@@ -9,7 +9,6 @@ class Ex(Net):
 
     def __init__(self):
         super().__init__(MSE, learning_rate=0.02)
-        """This is where the layers are defined"""
         self.a1 = Passive(self)
         self.l1 = Linear(self, 1, 5)
         self.l2 = Linear(self, 5, 1)

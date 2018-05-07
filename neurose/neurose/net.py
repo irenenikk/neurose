@@ -115,7 +115,9 @@ class Net:
             # numpy doesn't support broadcasting the way I would hope so there's some annoying reshaping here
             self.saved_biases[i] = np.array(self.saved_biases[i]).astype('float64')
             tmp_biases = np.asarray(self.saved_biases[i]).astype('float64').reshape((len(self.saved_biases[i]), 1))
-            tmp_biases -= np.sum(self.errors[i+1].T, axis=1, keepdims=True) * self.learning_rate
+            error = np.sum(self.errors[i + 1].T, axis=1, keepdims=True)
+            # print(error)
+            tmp_biases -= error * self.learning_rate
             self.saved_biases[i] = tmp_biases.reshape(len(self.saved_biases[i]))
             gradients.append(gradient)
         return gradients
