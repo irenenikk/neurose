@@ -14,9 +14,21 @@ All the weekly reports and documentation is in the [wiki](https://github.com/ire
   - Mean squared error
   - Cross Entropy Loss 
 
-## Running the example model
+## #xamples
 
-At the moment the example model is just overfitting to a simple linear regression problem to prove that the model can learn something. The input is currently `[1, 2, 3, 4]` and the true labels `[2, 4, 6, 8]`. Feel free to toy around with the amount of trianing epochs (iterations of the training loop). **The code still has a bug which results in many nans and infs, if this happens, run the model again**. I wrote some speculations about the bug in [the fifth weekly report](https://github.com/irenenikk/neurose/wiki/Weekly-report-5).
+There are two example models: One overfitting to a linear regression problem and another, more complete one classifying the MNIST dataset
+
+Linear regression:
+
+At the moment the example model is just overfitting to a simple linear regression problem to prove that the model can learn something. The input is currently `[1, 2, 3, 4]` and the true labels `[2, 4, 6, 8]`. Feel free to toy around with the amount of trianing epochs (iterations of the training loop). I wrote some speculations about the bug in [the fifth weekly report](https://github.com/irenenikk/neurose/wiki/Weekly-report-5).
+
+If the weights are initialized with `np.random.normal`, the model sometimes wanders off to a completely wrong direction, which results in some infs and nans. I really don't know why. At the moment the weights are initialized with `np.random.random`, which doesn't result in this problem.
+
+MNIST dataset:
+
+The example uses Pytorch's [MNIST dataset](https://pytorch.org/docs/master/torchvision/datasets.html#mnist), which is downloaded to the subfolder `data` once you run the model.
+
+## Running the example model
 
 0. Make sure you have python 3.x
 
@@ -24,9 +36,7 @@ At the moment the example model is just overfitting to a simple linear regressio
 
 2. Run the example code with `python path/to/example.py`
 
-3. The program will print the loss and output for each epoch.
-
-4. At the moment, the linear regression is such that the network should learn to print `[2, 4, 6, 8]`.
+3. The program will print the loss for each epoch.
 
 ## Building a model with Neurose
 
