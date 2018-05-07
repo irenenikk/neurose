@@ -14,7 +14,7 @@ All the weekly reports and documentation is in the [wiki](https://github.com/ire
   - Mean squared error
   - Cross Entropy Loss 
 
-## #xamples
+## Examples
 
 There are two example models: One overfitting to a linear regression problem and another, more complete one classifying the MNIST dataset
 
@@ -28,7 +28,7 @@ MNIST dataset:
 
 The example uses Pytorch's [MNIST dataset](https://pytorch.org/docs/master/torchvision/datasets.html#mnist), which is downloaded to the subfolder `data` once you run the model.
 
-## Running the example model
+## Running the example models
 
 0. Make sure you have python 3.x
 
