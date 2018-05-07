@@ -12,13 +12,7 @@ All the weekly reports and documentation is in the [wiki](https://github.com/ire
   - Passive (no activation)
 - Loss functions
   - Mean squared error
-
-
-## Todo:
-
-- [x] Backpropagate biases
-- [x] Add cross entropy loss
-- [ ] Build an example with MNIST
+  - Cross Entropy Loss 
 
 ## Running the example model
 
