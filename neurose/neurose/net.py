@@ -3,7 +3,7 @@ import numpy as np
 
 class Net:
 
-    def __init__(self, loss_function, learning_rate=0.5):
+    def __init__(self, loss_function, learning_rate=0.01):
         self.loss = loss_function
         self.learning_rate = learning_rate
         self.init_parameters()

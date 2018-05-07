@@ -55,10 +55,16 @@ class SoftMax(DifferentiableFunction):
     """
 
     def func(self, x):
+        """
+        This had to be hacked a bit, because np.exp overflows quite easily
+        Hack from https://timvieira.github.io/blog/post/2014/02/11/exp-normalize-trick/
+        """
         out = []
         for i in range(len(x)):
-            z = reduce(lambda val, sum: sum + val, np.exp(x[i]))
-            out.append(np.exp(x[i])/z)
+            b = np.amax(x[i])
+            diff = x[i] - b
+            y = np.exp(diff)
+            out.append(y/y.sum())
         return np.asarray(out)
 
     def derivative(self, x):
