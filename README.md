@@ -16,11 +16,11 @@ All the weekly reports and documentation is in the [wiki](https://github.com/ire
 
 ## Examples
 
-There are two example models: One overfitting to a linear regression problem and another, more complete one classifying the MNIST dataset
+There are two example models: One learning a linear regression function and another, more complete one classifying the MNIST dataset
 
 Linear regression:
 
-At the moment the example model is just overfitting to a simple linear regression problem to prove that the model can learn something. The input is currently `[1, 2, 3, 4]` and the true labels `[2, 4, 6, 8]`. Feel free to toy around with the amount of trianing epochs (iterations of the training loop). I wrote some speculations about the bug in [the fifth weekly report](https://github.com/irenenikk/neurose/wiki/Weekly-report-5).
+The example model is just overfitting to a simple linear regression problem to prove that the model can learn something. The input is currently `[1, 2, 3, 4]` and the true labels `[2, 4, 6, 8]`. Feel free to toy around with the amount of trianing epochs (iterations of the training loop).
 
 If the weights are initialized with `np.random.normal`, the model sometimes wanders off to a completely wrong direction, which results in some infs and nans. I really don't know why. At the moment the weights are initialized with `np.random.random`, which doesn't result in this problem.
 
