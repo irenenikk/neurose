@@ -1,6 +1,6 @@
 import numpy as np
 from net import Net
-from layers import Linear
+from layers.linear import Linear
 from functions import Passive, Sigmoid
 from functions import MeanSquaredError as MSE
 import time
@@ -49,8 +49,8 @@ class TorchWithActivation(nn.Module):
         self.l2 = nn.Linear(5, 1)
 
     def forward(self, x):
-        x = F.sigmoid(self.l1(x))
-        return F.sigmoid(self.l2(x))
+        x = torch.sigmoid(self.l1(x))
+        return torch.sigmoid(self.l2(x))
 
 
 def train_with_pytorch(torch_network, input):

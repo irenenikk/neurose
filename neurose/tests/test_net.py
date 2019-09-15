@@ -1,7 +1,7 @@
 from unittest import TestCase
 import numpy as np
 from random import randint
-from neurose.layers import Linear
+from neurose.layers.linear import Linear
 from neurose.net import Net
 from neurose.functions import Passive, Sigmoid, ReLu, SoftMax
 from neurose.functions import MeanSquaredError as MSE
@@ -40,7 +40,7 @@ class SimpleTest(Net):
         return x
 
 
-class TestWithActivation(Net):
+class WithActivation(Net):
 
     def __init__(self):
         super().__init__(MSE, learning_rate=0.02)
@@ -64,10 +64,10 @@ class TorchWithActivation(nn.Module):
 
     def forward(self, x):
        x = F.relu(self.l1(x))
-       return F.sigmoid(self.l2(x))
+       return torch.sigmoid(self.l2(x))
 
 
-class TestWithSoftmax(Net):
+class WithSoftmax(Net):
 
     def __init__(self):
         super().__init__(Cross, learning_rate=0.02)
@@ -180,7 +180,7 @@ class TestNet(TestCase):
         opt = optim.SGD(torch_network.parameters(), lr=0.02)
         self.set_initial_weights(torch_network)
         # with neurose
-        e = TestWithActivation()
+        e = WithActivation()
         input = self.get_lin_regression_inputs()
         x = Variable(torch.FloatTensor([1, 2, 3, 4]).unsqueeze(1))
         # check that outuputs are the same
@@ -190,7 +190,7 @@ class TestNet(TestCase):
 
     def test_weight_backpropagation_with_activation(self):
         # train neurose
-        e = TestWithActivation()
+        e = WithActivation()
         gradients = self.do_neurose_training_round_with_mse(e)
         # train torch
         torch_network = TorchWithActivation()
@@ -209,7 +209,7 @@ class TestNet(TestCase):
         opt = optim.SGD(torch_network.parameters(), lr=0.02)
         self.set_xor_initial_weights(torch_network)
         # with neurose
-        e = TestWithSoftmax()
+        e = WithSoftmax()
         input = self.get_xor_input()
         x = Variable(torch.FloatTensor([[1, 0], [0, 0], [0, 1], [1, 1]]))
         # check that outuputs are the same
@@ -219,7 +219,7 @@ class TestNet(TestCase):
 
     def test_weight_backpropagation_with_softmax(self):
         # train neurose
-        e = TestWithSoftmax()
+        e = WithSoftmax()
         gradients = self.do_neurose_training_round_with_cross(e)
         # train torch
         torch_network = TorchWithSoftmax()
@@ -234,7 +234,7 @@ class TestNet(TestCase):
 
     def assert_list_is_equal_to_tensor(self, my_output, torch_output):
         for my, torch_result in zip(my_output, torch_output.data):
-            assert round(my[0], 1) == round(torch_result[0], 1)
+            assert round(my[0], 1) == round(torch_result[0].item(), 1)
 
     def set_initial_weights(self, torch_network):
         global weights1
@@ -278,7 +278,7 @@ class TestNet(TestCase):
 
     def assert_vector_is_equal_to_tensor(self, m, t):
         for i in range(len(t)):
-            assert round(m[i], 2) == round(t[i].data[0], 2)
+            assert round(m[i], 2) == round(t[i].item(), 2)
 
     def do_torch_training_round_with_mse(self, torch_network):
         opt = optim.SGD(torch_network.parameters(), lr=0.02)

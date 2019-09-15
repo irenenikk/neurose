@@ -1,6 +1,6 @@
 import numpy as np
 from net import Net
-from layers import Linear
+from layers.linear import Linear
 from functions import ReLu, CrossEntropy, SoftMax
 import torchvision
 import torch
@@ -50,26 +50,16 @@ e = Ex()
 
 train_start = time.time()
 for epoch in range(100):
-
     epoch_start = time.time()
-
     for x, y in train_dataloader:
-
         pass_start = time.time()
-
         e.reset_saved_parameters()
-
         input = x.numpy()
         input = input.astype(np.float128)
-
         actual = y.numpy()
-
         output = e.forward_pass(input)
-
         loss = e.calculate_loss(output, actual)
-
         e.backpropagate()
-
         e.update_weights()
 
     print('loss for epoch {}: {}'.format(epoch, loss))
@@ -79,27 +69,18 @@ print('done training')
 print('training took {} minutes'.format((time.time() - train_start) / 60))
 
 print('testing')
-
 accuracy = 0
-
 total = 0
 
 for x, y in test_dataloader:
-
     e.reset_saved_parameters()
-
     input = x.numpy()
     input = input.astype(np.float128)
     actual = y.numpy()
-
     output = e.forward_pass(input)
-
     preds = get_prediction(output)
-
     correct = sum(actual == preds)
-
     accuracy += correct
-
     total += len(actual)
 
 print('Test accuracy: {}'.format(accuracy/total))

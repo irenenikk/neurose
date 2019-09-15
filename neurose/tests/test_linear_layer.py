@@ -1,7 +1,7 @@
 from unittest import TestCase
 import numpy as np
 from random import randint
-from neurose.layers import Linear
+from neurose.layers.linear import Linear
 from neurose.net import Net
 from neurose.functions import Sigmoid
 

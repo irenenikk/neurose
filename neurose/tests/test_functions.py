@@ -29,7 +29,7 @@ class TestFunctions(TestCase):
         i = torch.from_numpy(softmax.call(rand))
         for x, y in zip(t, i):
             for i, j in zip(x, y):
-                assert round(i, 10) == round(j, 10)
+                assert round(i.item(), 10) == round(j.item(), 10)
 
     def test_relu(self):
         rand = [[randint(-10, 10) for i in range(50)] for i in range(30)]
@@ -39,7 +39,7 @@ class TestFunctions(TestCase):
         i = torch.from_numpy(relu.call(rand))
         for x, y in zip(t, i):
             for i, j in zip(x, y):
-                assert round(i, 10) == round(j, 10)
+                assert round(i.item(), 10) == round(j.item(), 10)
 
 
     def test_mean_squared_error(self):
@@ -50,7 +50,7 @@ class TestFunctions(TestCase):
         torch_func = TorchMSE()
         torch_result = torch_func(Variable(torch.from_numpy(outputs).double()), Variable(torch.from_numpy(labels).double()))
         my_result = MeanSquaredError.call(outputs, labels)
-        assert (round(torch_result.data[0], 10) == round(my_result, 10))
+        assert (round(torch_result.item(), 10) == round(my_result, 10))
 
     def test_mse_raises_error_on_incompatible_dimensions(self):
         a = np.asarray([[randint(0, 10) for j in range(2)] for i in range(5)])
@@ -70,5 +70,5 @@ class TestFunctions(TestCase):
         torch_func = TorchCrossEntropy()
         torch_result = torch_func(Variable(torch.from_numpy(outputs).double()), Variable(torch.from_numpy(labels).long()))
         my_result = CrossEntropy.call(outputs, labels)
-        assert (round(torch_result.data[0], 10) == round(my_result, 10))
+        assert (round(torch_result.item(), 10) == round(my_result, 10))
 

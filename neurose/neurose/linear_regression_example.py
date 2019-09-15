@@ -1,6 +1,6 @@
 import numpy as np
 from net import Net
-from layers import Linear
+from layers.linear import Linear
 from functions import Passive
 from functions import MeanSquaredError as MSE
 
