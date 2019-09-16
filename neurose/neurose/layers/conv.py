@@ -40,13 +40,14 @@ class Conv2D:
             raise ValueError('Invalid choice of padding, input, kernel and stride size.')
         # use im2col to do convolution as one neat matrix multiplication
         col_vector_size = self.kernel_size**2*self.kernel_amount
+        if self.padding > 0:
+            inp = np.pad(inp, ((0,0),(self.padding,self.padding),(self.padding,self.padding)), 'constant')
         inp_col, kernel_locations = im2col(inp, self.kernel_size, stride=1)
         if self.use_biases:
             inp_col = np.vstack([inp_col, np.ones(kernel_locations**2)])
         kernel_row = im2row(self.kernel)
         if self.use_biases:
             kernel_row = np.hstack([kernel_row, self.biases.reshape(self.kernel_amount, 1)])
-
         return np.dot(kernel_row, inp_col).reshape(self.kernel_amount, kernel_locations, kernel_locations)
 
 
