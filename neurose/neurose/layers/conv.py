@@ -1,5 +1,5 @@
 import numpy as np
-from neurose.utils import im2col
+from neurose.utils import im2col, im2row
 
 class Conv2D:
 
@@ -38,9 +38,10 @@ class Conv2D:
             raise ValueError('Invalid choice of padding, input, kernel and stride size.')
         # use im2col to do convolution as one neat matrix multiplication
         col_vector_size = self.kernel_size**2*self.kernel_amount
-        print('self kernel shape', self.kernel.shape)
-        inp_col, kernel_locations = im2col(inp, self.kernel.shape[2], stride=1)
-        kernel_col, _ = im2col(self.kernel, kernel_size=1, stride=1)
-        return np.dot(kernel_col, inp_col).reshape(self.kernel_amount, kernel_locations, kernel_locations)
+        print('self kernel', self.kernel)
+        inp_col, kernel_locations = im2col(inp, self.kernel_size, stride=1)
+        kernel_row = im2row(self.kernel)
+        print('kernel_row', kernel_row)
+        return np.dot(kernel_row, inp_col).reshape(self.kernel_amount, kernel_locations, kernel_locations)
 
 

@@ -9,28 +9,35 @@ def im2col(x, kernel_size, stride):
     :param stride The size of the steps the kernel matrix takes after each multiplication.
     :return The input matrix stretched out into one matrix.
     """
-    no_kernel_locations = int((x.shape[1] - kernel_size)/stride + 1)
+    input_size = x.shape[1]
+    no_kernel_locations = int((input_size - kernel_size)/stride + 1)
     kernel_place = 0
     result_height = int(x.shape[0]*kernel_size**2)
-    result_width = int(((x.shape[1] - kernel_size)/stride + 1)**2)
+    result_width = int(((input_size - kernel_size)/stride + 1)**2)
     col_matrix  = np.zeros((result_height, result_width))
     k = kernel_size
     i = 0
+    v = 0
+    h = 0
     # vertical indexing
-    for v in range(no_kernel_locations):
+    for _ in range(no_kernel_locations):
         # horizontal indexing
-        for h in range(no_kernel_locations):
+        h = 0
+        for _ in range(no_kernel_locations):
             col = x[:, v:k+v, h:k+h].flatten()
             col_matrix[:, i] = col
+            h += stride
             i += 1
+        v += stride
     return col_matrix, no_kernel_locations
-torch.random.manual_seed(666)
-inp = np.arange(16).reshape(1, 4, 4)
-layer = nn.Conv2d(in_channels=1, out_channels=1,  kernel_size=2, stride=1, bias=False)
-output = layer(torch.tensor(inp).unsqueeze(0).float())
-kernel = list(layer.parameters())[0][0]
-inp_col, _ = im2col(inp, kernel.shape[1], stride=1)
-kernel_col, _ = im2col(kernel.detach().numpy(), kernel_size=1, stride=1)
-my_output = np.dot(kernel_col, inp_col).reshape(1, 3, 3)
-print(output)
-print(my_output)
+
+def im2row(x):
+    """
+    :param x Assumed to be a tensor with four dimensions (kernel amount, input channels, kernel size, kernel size).
+    :return The input matrix stretched out into one matrixof shape (kernel amount, input channels * kernel size * kernel size).
+    """
+    kernel_amount, in_channels, kernel_size, kernel_size = x.shape
+    output = np.zeros((kernel_amount, kernel_size**2*in_channels))
+    for i in range(kernel_amount):
+        output[i] = x[i].flatten()
+    return output
