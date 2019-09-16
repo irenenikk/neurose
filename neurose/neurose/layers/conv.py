@@ -3,7 +3,7 @@ from neurose.utils import im2col, im2row
 
 class Conv2D:
 
-    def __init__(self, network, input_channels, kernel_amount, kernel_size, stride=1, padding=0, initial_weights=None, initial_biases=None):
+    def __init__(self, network, input_channels, kernel_amount, kernel_size, stride=1, padding=0, use_biases=False, initial_weights=None, initial_biases=None):
         """
         :param network: The neural network this layer belongs to.
         :param input_channels: Amount of channels in the input image.
@@ -22,7 +22,9 @@ class Conv2D:
         self.stride = stride
         self.padding = padding
         self.kernel = initial_weights if initial_weights is not None else np.random.random(size=(kernel_amount, input_channels, kernel_size, kernel_size))
-        self.biases = np.ndarray(0)
+        self.use_biases = use_biases
+        if use_biases:
+            self.biases = initial_biases if initial_biases is not None else np.zeros(kernel_amount)
 
     def forward_pass(self, inp):
         """
@@ -38,10 +40,13 @@ class Conv2D:
             raise ValueError('Invalid choice of padding, input, kernel and stride size.')
         # use im2col to do convolution as one neat matrix multiplication
         col_vector_size = self.kernel_size**2*self.kernel_amount
-        print('self kernel', self.kernel)
         inp_col, kernel_locations = im2col(inp, self.kernel_size, stride=1)
+        if self.use_biases:
+            inp_col = np.vstack([inp_col, np.ones(kernel_locations**2)])
         kernel_row = im2row(self.kernel)
-        print('kernel_row', kernel_row)
+        if self.use_biases:
+            kernel_row = np.hstack([kernel_row, self.biases.reshape(self.kernel_amount, 1)])
+
         return np.dot(kernel_row, inp_col).reshape(self.kernel_amount, kernel_locations, kernel_locations)
 
 
