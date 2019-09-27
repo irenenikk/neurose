@@ -29,11 +29,16 @@ class Conv2D:
     def forward_pass(self, inp):
         """
         ¨
-        :param input: input for a specific layer of shape (batch_size, input_dimension)
-        :return: output of this layer after adding weights and biases of shape (batch_size, output_dimension)
+        :param input: input for a specific layer of shape (batch_size, channels, n, n)
+        :return: output of this layer after adding weights and biases of shape (batch_size, 1, kernel_locations, kernel_locations), 
+                where kernel locations is the amount of times the kernel can be passed accross the input
         """
+        if len(inp.shape) < 4:
+            raise ValueError('Make sure the input has 4 dimensions: (batch_size, channels, n, n)')
+        batch_size = inp.shape[0]
+        channels = inp.shape[1]
         F = self.kernel_size
-        W = inp.shape[0] # the input has to be a square matrix
+        W = inp.shape[2] # the input has to be a square matrix
         P = self.padding
         S = self.stride
         if (W - F + 2 * P) % S != 0:
@@ -41,13 +46,17 @@ class Conv2D:
         # use im2col to do convolution as one neat matrix multiplication
         col_vector_size = self.kernel_size**2*self.kernel_amount
         if self.padding > 0:
-            inp = np.pad(inp, ((0,0),(self.padding,self.padding),(self.padding,self.padding)), 'constant')
+            inp = np.pad(inp, ((0,0), (0,0),(self.padding,self.padding),(self.padding,self.padding)), 'constant')
+        # move batches to the bottom in order to just do one matrix multiplication
+        inp = np.concatenate(inp, axis=1)
         inp_col, kernel_locations = im2col(inp, self.kernel_size, stride=1)
-        if self.use_biases:
-            inp_col = np.vstack([inp_col, np.ones(kernel_locations**2)])
         kernel_row = im2row(self.kernel)
         if self.use_biases:
+            inp_col = np.vstack([inp_col, np.ones(kernel_locations**2*batch_size)])
             kernel_row = np.hstack([kernel_row, self.biases.reshape(self.kernel_amount, 1)])
-        return np.dot(kernel_row, inp_col).reshape(self.kernel_amount, kernel_locations, kernel_locations)
+        # this is a really ugly way of reshaping the dot product result
+        # the point is to essentially achieve the output shape
+        # but vanilla reshaping wouldn't work properly
+        return np.stack(np.dot(kernel_row, inp_col).reshape(self.kernel_amount, batch_size, kernel_locations, kernel_locations), axis=1)
 
 
